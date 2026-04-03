@@ -1,73 +1,37 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./componentes/layout/Navbar";
-import Footer from "./componentes/layout/Footer";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
-import Catalog from "./pages/Catalog";
+import ProductList from "./pages/ProductList";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
-import { CartProvider } from "./context/CartContext";
-import { ProductProvider } from "./context/ProductContext";
-import CategoryProducts from "./pages/CategoryProducts";
-import MaterialesPremium from "./pages/benefits/MaterialesPremium";
-import HechoAMano from "./pages/benefits/HechoAMano";
-import EnvioGratis from "./pages/benefits/EnvioGratis";
-import GarantiaCalidad from "./pages/benefits/GarantiaCalidad";
-import Ubicaciones from "./pages/Ubiaciones";
-import ScrollToTop from "./componentes/ScrollToTop";
-import { WishlistProvider } from "./context/WishlistContext";
-import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
-import OrderTracking from "./pages/OrderTracking";
-import OrderTracker from "./componentes/OrderTracker";
+import About from "./pages/Static/About";
+import Contact from "./pages/Static/Contact";
+import Terms from "./pages/Static/Terms";
+import Privacy from "./pages/Static/Privacy";
+import Cookies from "./pages/Static/Cookies";
+import Returns from "./pages/Static/Returns";
 
 function App() {
   return (
-    <CartProvider>
-      <ProductProvider>
-        <WishlistProvider>
-          <Router>
-            <div className="flex flex-col min-h-screen">
-              <ScrollToTop />
-              <Navbar />
-              <main className="flex-grow">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/catalog" element={<Catalog />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route
-                    path="/category/:categoryName"
-                    element={<CategoryProducts />}
-                  />
-                  <Route
-                    path="/beneficios/materiales-premium"
-                    element={<MaterialesPremium />}
-                  />
-                  <Route
-                    path="/beneficios/hecho-a-mano"
-                    element={<HechoAMano />}
-                  />
-                  <Route
-                    path="/beneficios/envio-gratis"
-                    element={<EnvioGratis />}
-                  />
-                  <Route
-                    path="/beneficios/garantia-calidad"
-                    element={<GarantiaCalidad />}
-                  />
-                  <Route path="/ubicaciones" element={<Ubicaciones />} />
-                  <Route path="/wishlist" element={<Wishlist />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/order-tracking" element={<OrderTracking />} />
-                  <Route path="/my-orders" element={<OrderTracker />} />
-                </Routes>
-              </main>
-              <Footer />
-            </div>
-          </Router>
-        </WishlistProvider>
-      </ProductProvider>
-    </CartProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route path="productos" element={<ProductList />} />
+          <Route path="producto/:id" element={<ProductDetail />} />
+          <Route path="carrito" element={<Cart />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="sobre-nosotros" element={<About />} />
+          <Route path="contacto" element={<Contact />} />
+          {/* Páginas legales */}
+          <Route path="terminos" element={<Terms />} />
+          <Route path="privacidad" element={<Privacy />} />
+          <Route path="cookies" element={<Cookies />} />
+          <Route path="devoluciones" element={<Returns />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
