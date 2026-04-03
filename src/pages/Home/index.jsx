@@ -16,7 +16,6 @@ const Home = () => {
   });
 
   const featuredProducts = products?.filter((p) => p.destacado) || [];
-  // Filtramos solo categorías con productos (incluyendo subcategorías)
   const activeCategories =
     categories?.filter((cat) => cat._count.products > 0) || [];
 
