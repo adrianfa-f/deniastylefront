@@ -8,7 +8,6 @@ const ProductFiltersBar = ({ filters, onFilterChange, products }) => {
 
   useEffect(() => {
     if (products && products.length) {
-      // Extraer tallas únicas de los productos (atributo Talla)
       const sizeSet = new Set();
       const colorSet = new Set();
       products.forEach((product) => {
@@ -22,15 +21,10 @@ const ProductFiltersBar = ({ filters, onFilterChange, products }) => {
     }
   }, [products]);
 
-  const handleSizeChange = (e) => {
-    const size = e.target.value;
-    onFilterChange({ size: size || null });
-  };
-
-  const handleColorChange = (e) => {
-    const color = e.target.value;
-    onFilterChange({ color: color || null });
-  };
+  const handleSizeChange = (e) =>
+    onFilterChange({ size: e.target.value || null });
+  const handleColorChange = (e) =>
+    onFilterChange({ color: e.target.value || null });
 
   const handlePriceApply = () => {
     const min = tempMin !== "" ? parseFloat(tempMin) : undefined;
@@ -52,9 +46,9 @@ const ProductFiltersBar = ({ filters, onFilterChange, products }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow mb-6">
-      <div className="flex flex-wrap gap-4 items-end">
-        <div className="flex-1 min-w-[150px]">
+    <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-md p-4 mb-6 border border-denia-mint-light">
+      <div className="flex flex-wrap gap-3 items-end">
+        <div className="flex-1 min-w-[160px]">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Precio
           </label>
@@ -64,64 +58,65 @@ const ProductFiltersBar = ({ filters, onFilterChange, products }) => {
               placeholder="Mín"
               value={tempMin}
               onChange={(e) => setTempMin(e.target.value)}
-              className="w-full px-2 py-1 border rounded"
+              className="input-modern w-full py-2 px-3 rounded-lg"
             />
-            <span className="self-center">-</span>
+            <span className="self-center text-gray-500">-</span>
             <input
               type="number"
               placeholder="Máx"
               value={tempMax}
               onChange={(e) => setTempMax(e.target.value)}
-              className="w-full px-2 py-1 border rounded"
+              className="input-modern w-full py-2 px-3 rounded-lg"
             />
             <button
               onClick={handlePriceApply}
-              className="bg-denia-mint text-gray-800 px-3 py-1 rounded hover:bg-denia-mint-dark"
+              className="btn-secondary py-2 px-4 text-sm"
             >
               Aplicar
             </button>
           </div>
         </div>
-
-        <div className="min-w-[120px]">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Talla
-          </label>
-          <select
-            value={filters.size || ""}
-            onChange={handleSizeChange}
-            className="w-full px-2 py-1 border rounded bg-white"
-          >
-            <option value="">Todas</option>
-            {sizes.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="min-w-[120px]">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Color
-          </label>
-          <select
-            value={filters.color || ""}
-            onChange={handleColorChange}
-            className="w-full px-2 py-1 border rounded bg-white"
-          >
-            <option value="">Todos</option>
-            {colors.map((color) => (
-              <option key={color} value={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-        </div>
-
+        {sizes.length > 0 && (
+          <div className="min-w-[120px]">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Talla
+            </label>
+            <select
+              value={filters.size || ""}
+              onChange={handleSizeChange}
+              className="input-modern py-2 px-3 rounded-lg"
+            >
+              <option value="">Todas</option>
+              {sizes.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        {colors.length > 0 && (
+          <div className="min-w-[120px]">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Color
+            </label>
+            <select
+              value={filters.color || ""}
+              onChange={handleColorChange}
+              className="input-modern py-2 px-3 rounded-lg"
+            >
+              <option value="">Todos</option>
+              {colors.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <button
           onClick={clearFilters}
-          className="bg-gray-200 text-gray-700 px-4 py-1 rounded hover:bg-gray-300"
+          className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
         >
           Limpiar filtros
         </button>

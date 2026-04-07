@@ -1,4 +1,3 @@
-// src/pages/ProductList/index.jsx
 import { useQuery } from "@tanstack/react-query";
 import { getProducts, getCategories } from "../../services/productService";
 import ProductCard from "../../components/product/ProductCard";
@@ -8,8 +7,6 @@ import { useSearchParams } from "react-router-dom";
 
 const ProductList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // Estado de filtros, inicializado desde los parámetros de URL
   const [filters, setFilters] = useState({
     categoryId: searchParams.get("categoria")
       ? parseInt(searchParams.get("categoria"))
@@ -25,7 +22,6 @@ const ProductList = () => {
     color: searchParams.get("color") || null,
   });
 
-  // Sincronizar estado cuando cambian los parámetros URL (ej. desde el header)
   useEffect(() => {
     setFilters({
       categoryId: searchParams.get("categoria")
@@ -43,60 +39,49 @@ const ProductList = () => {
     });
   }, [searchParams]);
 
-  // Función para actualizar filtros y sincronizar URL
   const handleFilterChange = (newFilters) => {
-    const updatedFilters = { ...filters, ...newFilters };
-    setFilters(updatedFilters);
-
-    // Construir nuevos parámetros de URL
+    const updated = { ...filters, ...newFilters };
+    setFilters(updated);
     const params = {};
-    if (updatedFilters.categoryId) params.categoria = updatedFilters.categoryId;
-    if (updatedFilters.search) params.busqueda = updatedFilters.search;
-    if (updatedFilters.minPrice) params.min = updatedFilters.minPrice;
-    if (updatedFilters.maxPrice) params.max = updatedFilters.maxPrice;
-    if (updatedFilters.size) params.talla = updatedFilters.size;
-    if (updatedFilters.color) params.color = updatedFilters.color;
+    if (updated.categoryId) params.categoria = updated.categoryId;
+    if (updated.search) params.busqueda = updated.search;
+    if (updated.minPrice) params.min = updated.minPrice;
+    if (updated.maxPrice) params.max = updated.maxPrice;
+    if (updated.size) params.talla = updated.size;
+    if (updated.color) params.color = updated.color;
     setSearchParams(params);
   };
 
-  // Obtener productos con los filtros actuales
   const { data: products, isLoading } = useQuery({
     queryKey: ["products", filters],
     queryFn: () => getProducts(filters),
   });
 
-  // Obtener categorías desde la API
   const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
   });
 
-  // Filtrar solo categorías que tienen al menos un producto
   const activeCategories =
     categories?.filter((cat) => cat._count?.products > 0) || [];
 
   if (isLoading)
     return (
-      <div className="text-center py-12 text-gray-600">
-        Cargando productos...
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-denia-peach"></div>
       </div>
     );
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">
+    <div className="animate-slide-up">
+      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">
         Nuestros productos
       </h1>
 
-      {/* Botones de categorías rápidas */}
-      <div className="mb-6 flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2 mb-6">
         <button
           onClick={() => handleFilterChange({ categoryId: null })}
-          className={`px-4 py-2 rounded-full ${
-            filters.categoryId === null
-              ? "bg-denia-peach text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          } transition`}
+          className={`px-4 py-2 rounded-full transition-all ${!filters.categoryId ? "bg-denia-peach text-white shadow-md" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
         >
           Todos
         </button>
@@ -104,36 +89,28 @@ const ProductList = () => {
           <button
             key={cat.id}
             onClick={() => handleFilterChange({ categoryId: cat.id })}
-            className={`px-4 py-2 rounded-full ${
-              filters.categoryId === cat.id
-                ? "bg-denia-peach text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            } transition`}
+            className={`px-4 py-2 rounded-full transition-all ${filters.categoryId === cat.id ? "bg-denia-peach text-white shadow-md" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
           >
-            {cat.name}
-            <span className="ml-1 text-xs opacity-75">
-              ({cat._count.products})
-            </span>
+            {cat.name}{" "}
+            <span className="text-xs ml-1">({cat._count.products})</span>
           </button>
         ))}
       </div>
 
-      {/* Barra de filtros horizontal (precio, talla, color) */}
       <ProductFiltersBar
         filters={filters}
         onFilterChange={handleFilterChange}
-        products={products} // pasamos productos para extraer tallas y colores dinámicamente
+        products={products}
       />
 
-      {/* Listado de productos */}
       {products?.length === 0 ? (
-        <p className="text-center text-gray-600">
+        <p className="text-center text-gray-500 py-12">
           No se encontraron productos.
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products?.map((product) => (
-            <ProductCard key={product.id} product={product} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {products?.map((p) => (
+            <ProductCard key={p.id} product={p} />
           ))}
         </div>
       )}

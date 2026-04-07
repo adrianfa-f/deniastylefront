@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-denia-mint-dark text-white py-8 mt-auto">
-      <div className="container mx-auto px-4">
+    <footer className="bg-gradient-to-r from-denia-mint-dark to-denia-mint text-white mt-16">
+      <div className="container-custom py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-semibold mb-4">Denia Style</h3>
+            <h3 className="text-xl font-bold mb-4">Denia Style</h3>
             <p className="text-sm opacity-90">
               Moda femenina con estilo y calidad. Encuentra las últimas
               tendencias.
@@ -63,7 +63,7 @@ const Footer = () => {
             <p className="text-sm">Tel: +34 123 456 789</p>
           </div>
         </div>
-        <div className="border-t border-white/20 mt-6 pt-4 text-center text-sm opacity-80">
+        <div className="border-t border-white/20 mt-8 pt-6 text-center text-sm opacity-80">
           © 2025 Denia Style. Todos los derechos reservados.
         </div>
       </div>
