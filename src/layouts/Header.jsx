@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FiSearch, FiShoppingCart, FiMenu, FiX, FiMail } from "react-icons/fi";
-import logo from "../../assets/logo.jpg";
+import logo from "../assets/logo.jpg";
 import { useCart } from "../../store/cartContext";
 
 const Header = () => {
