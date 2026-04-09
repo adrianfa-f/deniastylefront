@@ -73,8 +73,16 @@ const Home = () => {
               to={`/productos?categoria=${cat.id}`}
               className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 text-center transform hover:-translate-y-1"
             >
-              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-denia-mint-light to-denia-mint rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                <span className="text-3xl">👗</span>
+              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-denia-mint-light to-denia-mint rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform overflow-hidden">
+                <img
+                  src={`/images/categorias/${cat.slug}.jpg`}
+                  alt={cat.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/images/categorias/default.jpg";
+                  }}
+                />
               </div>
               <span className="text-gray-700 font-medium">{cat.name}</span>
               <span className="text-xs text-gray-500 block mt-1">
