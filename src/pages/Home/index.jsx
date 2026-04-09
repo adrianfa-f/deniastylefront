@@ -27,12 +27,12 @@ const Home = () => {
 
   return (
     <div className="animate-slide-up">
-      {/* Hero section con gradiente y patrón */}
+      {/* Hero section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-denia-rose via-white to-denia-mint-light rounded-3xl my-8 p-8 md:p-12 text-center shadow-xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-denia-peach rounded-full opacity-10 blur-3xl -translate-y-1/2 translate-x-1/3"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-denia-mint rounded-full opacity-10 blur-3xl translate-y-1/2 -translate-x-1/3"></div>
         <div className="relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-4 font-playfair">
             Denia Style
           </h1>
           <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -61,33 +61,36 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categorías */}
-      <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">
+      {/* Categorías - Versión mejorada */}
+      <section className="mb-20">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-12 text-center font-playfair">
           Categorías
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
           {activeCategories.map((cat) => (
             <Link
               key={cat.id}
               to={`/productos?categoria=${cat.id}`}
-              className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 text-center transform hover:-translate-y-1"
+              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 p-5 text-center transform hover:-translate-y-2"
             >
-              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-denia-mint-light to-denia-mint rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform overflow-hidden">
+              <div className="w-28 h-28 mx-auto bg-gradient-to-br from-denia-mint-light to-denia-mint rounded-full flex items-center justify-center mb-4 overflow-hidden shadow-md group-hover:shadow-xl transition-all duration-300">
                 <img
                   src={`/images/categorias/${cat.slug}.jpg`}
                   alt={cat.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = "/images/categorias/default.jpg";
                   }}
                 />
               </div>
-              <span className="text-gray-700 font-medium">{cat.name}</span>
-              <span className="text-xs text-gray-500 block mt-1">
-                ({cat._count.products})
+              <span className="text-gray-800 font-semibold text-lg group-hover:text-denia-peach transition-colors duration-300">
+                {cat.name}
               </span>
+              <span className="text-sm text-gray-500 block mt-1">
+                ({cat._count.products} productos)
+              </span>
+              <div className="absolute inset-0 rounded-2xl border-2 border-denia-peach opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             </Link>
           ))}
         </div>
@@ -95,7 +98,7 @@ const Home = () => {
 
       {/* Productos destacados */}
       <section>
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center font-playfair">
           Productos destacados
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -11,6 +11,12 @@
   }
 }
 
+@layer base {
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
 @layer components {
   .container-custom {
     @apply container mx-auto px-4 sm:px-6 lg:px-8;
